@@ -13,9 +13,14 @@ body {
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
   background-color: #f8fafc;
   color: #0f172a;
+  transition: background-color 200ms ease, color 200ms ease;
 }
 
 .dark body {
   background-color: #020617;
   color: #e2e8f0;
+}
+
+* {
+  box-sizing: border-box;
 }

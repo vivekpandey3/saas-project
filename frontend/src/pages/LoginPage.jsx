@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { api } from "../api/client";
@@ -32,8 +33,9 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-100 p-4 dark:bg-slate-900">
-      <Card className="w-full max-w-md space-y-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-slate-100 to-white p-4 dark:from-slate-900 dark:to-slate-950">
+      <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}>
+        <Card className="w-full max-w-md space-y-4">
         <h1 className="text-xl font-semibold">Sign in</h1>
         <form onSubmit={submit} className="space-y-3">
           <Input
@@ -60,7 +62,8 @@ export const LoginPage = () => {
             Create one
           </Link>
         </p>
-      </Card>
+        </Card>
+      </motion.div>
     </div>
   );
 };

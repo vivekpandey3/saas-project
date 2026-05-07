@@ -40,8 +40,9 @@ export const ActivityPage = () => {
           {logs.map((log) => (
             <div
               key={log._id}
-              className="rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-800"
+              className="relative rounded-xl border border-slate-200 px-3 py-2 pl-5 dark:border-slate-800"
             >
+              <span className="absolute left-2 top-4 h-2 w-2 rounded-full bg-indigo-500" />
               <p className="font-medium">{log.action}</p>
               <p className="text-sm text-slate-500">
                 {log.actor?.name || "User"} • {new Date(log.createdAt).toLocaleString()}

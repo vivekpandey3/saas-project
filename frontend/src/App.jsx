@@ -1,4 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 import { Skeleton } from "./components/ui/Skeleton";
 import { useAuthStore } from "./store/authStore";
@@ -32,41 +34,48 @@ const PublicOnly = ({ children }) => {
 };
 
 function App() {
+  const location = useLocation();
+
+  const page = (element) => (
+    <motion.div
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.2 }}
+    >
+      {element}
+    </motion.div>
+  );
+
   return (
-    <Routes>
-      <Route
-        path="/login"
-        element={
-          <PublicOnly>
-            <LoginPage />
-          </PublicOnly>
-        }
-      />
-      <Route
-        path="/register"
-        element={
-          <PublicOnly>
-            <RegisterPage />
-          </PublicOnly>
-        }
-      />
-      <Route
-        path="/app"
-        element={
-          <Protected>
-            <DashboardLayout />
-          </Protected>
-        }
-      >
-        <Route index element={<DashboardHome />} />
-        <Route path="onboarding" element={<OnboardingPage />} />
-        <Route path="tasks" element={<TasksPage />} />
-        <Route path="team" element={<TeamPage />} />
-        <Route path="activity" element={<ActivityPage />} />
-      </Route>
-      <Route path="/" element={<Navigate to="/app" replace />} />
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route
+          path="/login"
+          element={<PublicOnly>{page(<LoginPage />)}</PublicOnly>}
+        />
+        <Route
+          path="/register"
+          element={<PublicOnly>{page(<RegisterPage />)}</PublicOnly>}
+        />
+        <Route
+          path="/app"
+          element={
+            <Protected>
+              <DashboardLayout />
+            </Protected>
+          }
+        >
+          <Route index element={page(<DashboardHome />)} />
+          <Route path="onboarding" element={page(<OnboardingPage />)} />
+          <Route path="tasks" element={page(<TasksPage />)} />
+          <Route path="team" element={page(<TeamPage />)} />
+          <Route path="activity" element={page(<ActivityPage />)} />
+        </Route>
+        <Route path="/" element={<Navigate to="/app" replace />} />
+        <Route path="*" element={page(<NotFoundPage />)} />
+      </Routes>
+    </AnimatePresence>
   );
 }
 

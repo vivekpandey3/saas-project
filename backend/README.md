@@ -60,7 +60,34 @@ src/
 - `GET /api/users/team`
 - `GET /api/users/activity`
 
-## 7) Security & Validation
+## 7) Realtime (Socket.io)
+
+- Socket auth uses JWT token + workspace id via socket handshake auth.
+- Members join workspace room: `workspace:<workspaceId>`.
+- Task events emitted to workspace members:
+  - `task:created`
+  - `task:updated`
+  - `task:deleted`
+- Presence event emitted on connect/disconnect:
+  - `presence:update` with `onlineCount`
+- Notification event emitted to user room:
+  - `notification:new`
+
+## 8) API Notes For Frontend Integration
+
+- Protected workspace routes depend on the `x-workspace-id` request header.
+- Auth token should be sent as `Authorization: Bearer <token>`.
+- Task status supports:
+  - `todo`
+  - `in_progress`
+  - `done`
+- Activity logs are returned sorted by latest first.
+- Notification endpoints:
+  - `GET /api/users/notifications`
+  - `PATCH /api/users/notifications/:notificationId/read`
+  - `PATCH /api/users/notifications/read-all`
+
+## 9) Security & Validation
 
 - Password hashing: `bcryptjs`
 - JWT auth middleware
@@ -68,3 +95,13 @@ src/
 - Role guard (`admin`)
 - Input validation with `zod`
 - Central error handler with consistent JSON responses
+
+## 10) Current Scope
+
+- Auth
+- Multi-tenant workspaces
+- Team members
+- Task CRUD
+- Activity logs
+
+Planned next backend extensions include realtime sockets, notifications, file uploads, and richer RBAC endpoints.

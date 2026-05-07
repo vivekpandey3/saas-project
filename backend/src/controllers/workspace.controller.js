@@ -5,6 +5,7 @@ import { User } from "../models/User.js";
 import { ApiError } from "../utils/apiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { logActivity } from "../services/activity.service.js";
+import { createNotification } from "../services/notification.service.js";
 
 export const createWorkspace = asyncHandler(async (req, res) => {
   const { name } = req.validated.body;
@@ -53,8 +54,25 @@ export const joinWorkspace = asyncHandler(async (req, res) => {
   );
 
   if (!alreadyMember) {
+    const existingMembers = workspace.members.map((member) => member.user.toString());
     workspace.members.push({ user: req.user._id, role: "member" });
     await workspace.save();
+
+    await Promise.all(
+      existingMembers
+        .filter((memberId) => memberId !== req.user._id.toString())
+        .map((memberId) =>
+          createNotification({
+            workspaceId: workspace._id,
+            userId: memberId,
+            actorId: req.user._id,
+            type: "user_joined",
+            title: "New member joined",
+            message: `${req.user.name} joined your workspace`,
+            meta: { joinedUserId: req.user._id }
+          })
+        )
+    );
   }
 
   await User.findByIdAndUpdate(req.user._id, { currentWorkspace: workspace._id });

@@ -1,37 +1,66 @@
 # Workspace Frontend
 
-React + Vite frontend for the multi-tenant workspace app.
+React + Vite frontend for a multi-tenant workspace SaaS app.
+
+## Tech Stack
+
+- React + Vite
+- Tailwind CSS v4
+- React Router
+- Axios
+- Zustand
+- Framer Motion
+- React Hot Toast
 
 ## Setup
 
 1. Copy `.env.example` to `.env`
-2. Run:
+2. Set API URL:
+   - `VITE_API_URL=http://localhost:5000/api`
+   - `VITE_SOCKET_URL=http://localhost:5000`
+3. Run:
    - `npm install`
    - `npm run dev`
 
-## Features
+## UI/UX Features
 
-- Auth flow (login/register/logout)
-- Protected dashboard routes
-- Workspace switcher
-- Task CRUD page
-- Team members page
-- Activity log page
-- Dark mode toggle
-- Skeleton loading and toast notifications
-# React + Vite
+- Modern SaaS-style responsive layout
+- Collapsible animated sidebar (desktop) + slide-over mobile sidebar
+- Sticky top navbar with workspace context, dark mode, notifications button, and quick search placeholder
+- Page transitions (fade + slide) using Framer Motion
+- Modal animations (scale + fade) for task creation flow
+- Micro-interactions on buttons and task cards
+- Improved skeleton loaders and toast notifications
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Product Features
 
-Currently, two official plugins are available:
+- JWT-based auth flow (login/register/logout)
+- Protected route architecture
+- Multi-workspace switcher
+- Task management (create/list/update/delete)
+- Realtime Kanban updates (Socket.io)
+- Online workspace presence indicator
+- Notification bell dropdown with unread count
+- Notifications for task assignment and member join events
+- Team members list
+- Workspace activity timeline
+- Dark mode toggle with persisted state
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Folder Structure
 
-## React Compiler
+```text
+src/
+  api/                # axios client + interceptors
+  components/
+    layout/           # dashboard shell
+    ui/               # reusable primitives (button/card/input/modal/skeleton)
+  hooks/              # app bootstrap hooks
+  pages/              # route pages
+  store/              # zustand stores
+  App.jsx             # route tree + page transitions
+  main.jsx            # app bootstrap + providers
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Build
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `npm run build` creates a production build in `dist/`.
