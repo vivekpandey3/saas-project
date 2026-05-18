@@ -8,6 +8,7 @@ import authRoutes from "./routes/auth.routes.js";
 import taskRoutes from "./routes/task.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import workspaceRoutes from "./routes/workspace.routes.js";
+import teamMemberRoutes from "./routes/teamMember.routes.js";
 
 export const app = express();
 
@@ -29,6 +30,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/workspaces", workspaceRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/users", userRoutes);
+console.log("TEAM ROUTES LOADED");
+
+app.use("/api/team", teamMemberRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
